@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1637679470 source:c:\users\youcode\desktop\workspace\project sas\the real project\main.c
+	<stdio.h>
+	<stdlib.h>
+
