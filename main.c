@@ -2,24 +2,32 @@
 #include <stdlib.h>
 #include <string.h>
 int accountID = 0;
+int f;
 
 //Functions Prototypes
 void displayMenuOptions();
+
 void accountCreationOption();
-void singleAccountCreation();
-void multAccountCreation();
+    void accountCreation();
+        void singleAccountCreation();
+        void multAccountCreation();
+
 void accountOperationsOption();
-void withdrawOption();
-void depositOption();
+    void withdrawOption();
+    void depositOption();
+
 void accountDisplayOptions();
-void ascendingOrder();
-void descendingOrder();
-void ascendingOrderMin();
-void descendingOrderMin();
-void searchCIN();
+    void sortingF();
+    void printingF();
+        void ascendingOrder();
+        void descendingOrder();
+        void ascendingOrderMin();
+        void descendingOrderMin();
+    void searchCIN();
+
 void applyLoyaltyBonus();
 
-//Account Struct
+//Account Structure
 struct account_details
 {
     char account_CIN[20];
@@ -31,20 +39,22 @@ struct account_details
 
 int main()
 {
-    printf("This app serves the purpose of managing clients' bank accounts. Bank Account Management (BAM!)\n\n");
-    printf("Operate the menu below using numbers only\n\n");
-    printf("The Menu: \n\n");
+    printf("\t\tBank Account Management. (BAM!) \n");
+    printf("\nThis app serves the purpose of managing clients' bank accounts. \n\n");
+    printf("(Operate the menu below using numbers only)\n\n");
+
     displayMenuOptions();
 }
 
 //The Display Menu
 void displayMenuOptions()
 {
+    printf("\n***** The Menu *****\n\n");
     printf("1. Account Creation\n");
     printf("2. Account Operations\n");
     printf("3. Display Options\n");
     printf("4. Apply loyalty bonus\n");
-    printf("5. Exit the application\n");
+    printf("5. Exit the application\n\n");
 
 
         int menuOption;
@@ -88,40 +98,38 @@ void accountCreationOption()
                     break;
                 }
 }
-
-    //Single account creation option
-void singleAccountCreation()
+    //Account Creation
+void accountCreation()
 {
     printf("\nEnter your CIN: ");
     scanf("%s", Account[accountID].account_CIN);
-    printf("\nEnter your First Name: ");
+    printf("Enter your First Name: ");
     scanf("%s", Account[accountID].account_FirstName);
-    printf("\nEnter your Last Name: ");
+    printf("Enter your Last Name: ");
     scanf("%s", Account[accountID].account_LastName);
-    printf("\Your account with the CIN #%s has been created successfully! \n\n", Account[accountID].account_CIN);
+    printf("\nYour account with the CIN #%s has been created successfully! \n\n", Account[accountID].account_CIN);
     ++accountID;
+}
+
+        //Single account creation option
+void singleAccountCreation()
+{
+    accountCreation();
     displayMenuOptions();
 }
 
-    //Multiple account creation option
+        //Multiple account creation option
 void multAccountCreation()
 {
     int creationAmount;
-    printf("Enter the number of accounts you wish to create: ");
+    printf("\nEnter the number of accounts you wish to create: ");
     scanf("%d", &creationAmount);
 
     struct account_details account[creationAmount];
 
         for (int i = 0; i < creationAmount; i++)
         {
-            printf("\nEnter your CIN: ");
-            scanf("%s", Account[accountID].account_CIN);
-            printf("\nEnter your First Name: ");
-            scanf("%s", Account[accountID].account_FirstName);
-            printf("\nEnter your Last Name: ");
-            scanf("%s", Account[accountID].account_LastName);
-            printf("\nYour account with the CIN #%s has been created successfully! \n\n", Account[accountID].account_CIN);
-            accountID++;
+            accountCreation();
         }
         displayMenuOptions();
 }
@@ -151,7 +159,7 @@ void withdrawOption()
     char accountNo[20];
     int moneyWithdrawal;
 
-    printf("\nEnter the account CIN that you wish to withdraw from: \n");
+    printf("\nEnter the account CIN that you wish to withdraw from: ");
     scanf("%s", accountNo);
 
     for (int i = 0; i < accountID; i++)
@@ -176,7 +184,7 @@ void depositOption()
     char accountNo[20];
     int moneyDeposit;
 
-    printf("\nEnter the account CIN that you wish to deposit to: \n");
+    printf("\nEnter the account CIN that you wish to deposit to: ");
     scanf("%s", accountNo);
     for (int i = 0; i < accountID; i++)
     {
@@ -223,141 +231,98 @@ void depositOption()
                     break;
                 }
 }
+    //Sorting Function
+void sortingF()
+{
+    struct account_details temp_value;
+    for(int i=0;i<accountID;i++)
+        {
+            for(int j=i+1;j<accountID;j++)
+            {
+                if(Account[i].account_Balance>Account[j].account_Balance)
+                {
+                temp_value=Account[i];
+                Account[i]=Account[j];
+                Account[j]=temp_value;
+                }
+            }
 
-    //Ascending Order
+        }
+}
+
+    //Printing Function
+void printingF()
+{
+    printf("Account #%s \n", Account[f].account_CIN);
+    printf("\tFirst Name: %s\n", Account[f].account_FirstName);
+    printf("\tLast Name: %s\n", Account[f].account_LastName);
+    printf("\tAmount: %.2f \n\n",Account[f].account_Balance);
+}
+
+        //Ascending Order
 void ascendingOrder()
 {
-    int i,j,minimum;
-    struct account_details temp_value;
-
-    for(i=0;i<accountID;i++)
-        {
-            for(j=i+1;j<accountID;j++)
-            {
-                if(Account[i].account_Balance>Account[j].account_Balance)
-                {
-                temp_value=Account[i];
-                Account[i]=Account[j];
-                Account[j]=temp_value;
-                }
-            }
-
-        }
+    sortingF();
 
     printf("\n Ascending order display: \n");
-    for(i=0;i<accountID;i++)
+    for(f=0;f<accountID;f++)
     {
-    printf("Account #%s \n", Account[i].account_CIN);
-    printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-    printf("\tLast Name: #%s\n", Account[i].account_LastName);
-    printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+    printingF();
     }
 
     displayMenuOptions();
 }
 
-    //Descending Order
+        //Descending Order
 void descendingOrder()
 {
-    int i,j,minimum;
-    struct account_details temp_value;
-
-    for(i=0;i<accountID;i++)
-        {
-            for(j=i+1;j<accountID;j++)
-            {
-                if(Account[i].account_Balance<Account[j].account_Balance)
-                {
-                temp_value=Account[i];
-                Account[i]=Account[j];
-                Account[j]=temp_value;
-                }
-            }
-
-        }
+    sortingF();
 
     printf("\n Descending order display: \n");
-    for(i=0;i<accountID;i++)
+    for(f=accountID-1;f>=0;f--)
     {
-    printf("Account #%s \n", Account[i].account_CIN);
-    printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-    printf("\tLast Name: #%s\n", Account[i].account_LastName);
-    printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+    printingF();
     }
 
     displayMenuOptions();
 }
 
-    //Ascending Order (By Amount)
+        //Ascending Order (By Amount)
 void ascendingOrderMin()
 {
-    int i,j,minimum,amountMin;
-    struct account_details temp_value;
+    sortingF();
 
+    int amountMin;
     printf("Enter the minimum amount to be shown: ");
     scanf("%d", &amountMin);
 
-    for(i=0;i<accountID;i++)
-        {
-            for(j=i+1;j<accountID;j++)
-            {
-                if(Account[i].account_Balance>Account[j].account_Balance)
-                {
-                temp_value=Account[i];
-                Account[i]=Account[j];
-                Account[j]=temp_value;
-                }
-            }
-
-        }
-
     printf("\n Ascending order display: \n");
-    for(i=0;i<accountID;i++)
+    for(f=0;f<accountID;f++)
     {
-        if (Account[i].account_Balance>=amountMin)
+        if (Account[f].account_Balance>=amountMin)
         {
-        printf("Account #%s \n", Account[i].account_CIN);
-        printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-        printf("\tLast Name: #%s\n", Account[i].account_LastName);
-        printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+        printingF();
         }
     }
 
     displayMenuOptions();
 }
 
-    //Descending Order (By Amount)
+        //Descending Order (By Amount)
 void descendingOrderMin()
 {
-    int i,j,minimum,amountMin;
-    struct account_details temp_value;
+    sortingF();
 
+    int amountMin;
     printf("Enter the minimum amount to be shown: ");
     scanf("%d", &amountMin);
 
-    for(i=0;i<accountID;i++)
-        {
-            for(j=i+1;j<accountID;j++)
-            {
-                if(Account[i].account_Balance>Account[j].account_Balance)
-                {
-                temp_value=Account[i];
-                Account[i]=Account[j];
-                Account[j]=temp_value;
-                }
-            }
-
-        }
-
-    printf("\n Ascending order display: \n");
-    for(i=accountID;i>0;i--)
+    printf("\n Descending order display: \n");
+    for(f=accountID-1;f>=0;f--)
     {
-        if (Account[i].account_Balance>=amountMin)
+        if (Account[f].account_Balance>=amountMin)
             {
-        printf("Account #%s \n", Account[i].account_CIN);
-        printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-        printf("\tLast Name: #%s\n", Account[i].account_LastName);
-        printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+            printingF();
             }
     }
 
@@ -371,14 +336,11 @@ char accountNo[20];
 printf("\nEnter the account CIN that you wish to search for: ");
 scanf("%s", accountNo);
 
-    for (int i = 0; i < accountID; i++)
+    for (f=0;f<accountID; f++)
     {
-        if (stricmp(accountNo, Account[i].account_CIN) == 0)
+        if (stricmp(accountNo, Account[f].account_CIN) == 0)
         {
-        printf("Account #%s \n", Account[i].account_CIN);
-        printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-        printf("\tLast Name: #%s\n", Account[i].account_LastName);
-        printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+        printingF();
         }
     }
         displayMenuOptions();
@@ -387,34 +349,16 @@ scanf("%s", accountNo);
 //Apply Loyalty Bonus
 void applyLoyaltyBonus()
 {
-    int i,j,minimum;
-    struct account_details temp_value;
+        sortingF();
 
-    for(i=0;i<accountID;i++)
+        for(f=accountID-1;f>=accountID-3;f--)
         {
-            for(j=i+1;j<accountID;j++)
-            {
-                if(Account[i].account_Balance>Account[j].account_Balance)
-                {
-                temp_value=Account[i];
-                Account[i]=Account[j];
-                Account[j]=temp_value;
-                }
-            }
-
+        Account[f].account_Balance *= 101.3/100;
         }
 
-        for(i=accountID-1;i>=accountID-3;i--)
+        for(f=accountID-1;f>=accountID-3;f--)
         {
-        Account[i].account_Balance *= 101.3/100;
-        }
-
-        for(i=accountID-1;i>=accountID-3;i--)
-        {
-        printf("Account #%s \n", Account[i].account_CIN);
-        printf("\tFirst Name: #%s\n", Account[i].account_FirstName);
-        printf("\tLast Name: #%s\n", Account[i].account_LastName);
-        printf("\tAmount: %.2f \n\n",Account[i].account_Balance);
+        printingF();
         }
 
         displayMenuOptions();
